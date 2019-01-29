@@ -43,7 +43,10 @@ namespace Tests
 
     [DataTestMethod]
     [DataRow("1+3*3")]
-    public void bodmas(string value)
+    [DataRow("1+3*3")]
+        [DataRow("1+3*3")]
+        [DataRow("1+3*3")]
+        public void bodmas(string value)
     {
       var result = Calc.Calculate(value);
       Assert.IsTrue(result.result == 10, $"{value} should be 10");

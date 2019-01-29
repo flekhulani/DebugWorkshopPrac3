@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Data;
 
 namespace debugws3
 {
@@ -71,53 +72,8 @@ namespace debugws3
         return new Result(0, "Wrong entry. Try again using one or more operations");
       }
 
-      //Getting numbers and math operators using Regex
-      var numArray = Regex.Matches(input, "[0-9]+").Cast<Match>().Select(m => m.Value).ToArray();
-      var opArray = Regex.Matches(input, @"[+-\/*]").Cast<Match>().Select(m => m.Value).ToArray();
-
-      //Casting Arrays to the correct data type
-      int[] numbersToBeCalculated = Array.ConvertAll(numArray, int.Parse);
-      char[] operations = Array.ConvertAll(opArray, char.Parse);
-
-      //Checking if math operators are equal or more than the numbers to be calculated
-      if (operations.Length >= numbersToBeCalculated.Length)
-      {
-        return new Result(0, "Wrong entry. Try again using one or more operations");
-      }
-
-      double result = numbersToBeCalculated[0];
-
-      var j = 0;
-      for (var i = 1; i < numbersToBeCalculated.Length; i++)
-      {
-        switch (operations[j])
-        {
-          case '+':
-            {
-              result += numbersToBeCalculated[i];
-              break;
-            }
-          case '-':
-            {
-              result -= numbersToBeCalculated[i];
-              break;
-            }
-          case '*':
-            {
-              result *= numbersToBeCalculated[i];
-              break;
-            }
-          case '/':
-            {
-              result /= numbersToBeCalculated[i];
-              break;
-            }
-          default:
-            break;
-        }
-        j++;
-      }
-
+      DataTable data = new DataTable();
+      var result = Convert.ToDouble(data.Compute(input, null));
       return new Result(result, "");
     }
 
